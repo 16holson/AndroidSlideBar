@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ResultsFragment#newInstance} factory method to
@@ -74,8 +76,11 @@ public class ResultsFragment extends Fragment {
         txtResult = root.findViewById(R.id.txtResults);
     }
 
-    public void updateResult(int progress)
+    public void updateResult(double progress)
     {
-        txtResult.setText("" + progress);
+        BigDecimal progressRate = new BigDecimal(progress);
+        BigDecimal amount = progressRate.add(new BigDecimal(45));
+
+        txtResult.setText("" + progressRate);
     }
 }

@@ -39,7 +39,7 @@ public class SeekBarFragment extends Fragment
 
     public interface onSeekUpdate
     {
-        public void onSeekBarProgress(int progress);
+        public void onSeekBarProgress(double progress);
     }
 
     /**
@@ -108,7 +108,7 @@ public class SeekBarFragment extends Fragment
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b)
             {
-                mCallback.onSeekBarProgress(i);
+                mCallback.onSeekBarProgress(i/4.0);
             }
 
             @Override
