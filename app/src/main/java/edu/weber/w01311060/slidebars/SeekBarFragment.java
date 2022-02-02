@@ -1,6 +1,8 @@
 package edu.weber.w01311060.slidebars;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -31,6 +33,7 @@ public class SeekBarFragment extends Fragment
 
     private View root;
     private onSeekUpdate mCallback;
+    private SeekBar seek;
 
     public SeekBarFragment()
     {
@@ -59,6 +62,18 @@ public class SeekBarFragment extends Fragment
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+
+        SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefEdit = prefs.edit();
+
+        prefEdit.putInt("seekbar", seek.getProgress());
+        prefEdit.commit();
     }
 
     @Override
@@ -91,7 +106,7 @@ public class SeekBarFragment extends Fragment
         catch (ClassCastException e)
         {
             throw new ClassCastException(activity.toString()
-                    + " must impment SeekBarFragment.OnSeekUpdate");
+                    + " must implement SeekBarFragment.OnSeekUpdate");
         }
 
     }
@@ -100,9 +115,9 @@ public class SeekBarFragment extends Fragment
     public void onResume()
     {
         super.onResume();
-
-        SeekBar seek = root.findViewById(R.id.seekBar);
-
+        SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
+        int progress = prefs.getInt("seekbar", 0); //the integer is a default just in case the value isn't there
+        seek = root.findViewById(R.id.seekBar);
         seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
         {
             @Override
@@ -123,5 +138,8 @@ public class SeekBarFragment extends Fragment
 
             }
         });
+        seek.setProgress(progress);
     }
+
+
 }

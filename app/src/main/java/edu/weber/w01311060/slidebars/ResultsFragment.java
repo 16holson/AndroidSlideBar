@@ -29,8 +29,10 @@ public class ResultsFragment extends Fragment {
 
     private View root;
     private TextView txtResult;
-
-    public ResultsFragment() {
+    private BigDecimal value;
+    public ResultsFragment()
+    {
+        value = new BigDecimal(0);
         // Required empty public constructor
     }
 
@@ -72,7 +74,6 @@ public class ResultsFragment extends Fragment {
     public void onResume()
     {
         super.onResume();
-
         txtResult = root.findViewById(R.id.txtResults);
     }
 
@@ -81,6 +82,13 @@ public class ResultsFragment extends Fragment {
         BigDecimal progressRate = new BigDecimal(progress);
         BigDecimal amount = progressRate.add(new BigDecimal(45));
 
-        txtResult.setText("" + progressRate);
+        value = amount;
+        if (txtResult != null)
+        {
+            txtResult.setText("" + amount);
+        }
+
+
+
     }
 }
