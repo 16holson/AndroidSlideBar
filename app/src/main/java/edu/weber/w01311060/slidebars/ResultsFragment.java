@@ -4,12 +4,20 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,6 +38,8 @@ public class ResultsFragment extends Fragment {
     private View root;
     private TextView txtResult;
     private BigDecimal value;
+    private EditText editTextTextPassword;
+
     public ResultsFragment()
     {
         value = new BigDecimal(0);
@@ -75,6 +85,33 @@ public class ResultsFragment extends Fragment {
     {
         super.onResume();
         txtResult = root.findViewById(R.id.txtResults);
+        NumberFormat format = NumberFormat.getCurrencyInstance(Locale.US);
+        txtResult.setText("" + format.format(value.doubleValue()));
+
+
+        editTextTextPassword = root.findViewById(R.id.editTextTextPassword);
+
+        TextWatcher watcher = new TextWatcher()
+        {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable)
+            {
+                Log.d("enteredText", editTextTextPassword.getText().toString());
+            }
+        };
+        editTextTextPassword.addTextChangedListener(watcher);
     }
 
     public void updateResult(double progress)
@@ -85,7 +122,7 @@ public class ResultsFragment extends Fragment {
         value = amount;
         if (txtResult != null)
         {
-            txtResult.setText("" + amount);
+            txtResult.setText("" + value);
         }
 
 
